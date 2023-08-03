@@ -11,7 +11,7 @@ class hyperparameters():
         # Choose the output to be predicted, either the cosmological parameters ("cosmo") or the power spectrum ("ps")
         self.outmode = outmode
         # 1 for using only positions as features, 0 for using additional galactic features
-        # 1 only for outmode = "cosmo"
+        # 1 only for outmode = "ps"
         self.only_positions = only_positions
         if self.outmode == "ps":
             self.only_positions = 1

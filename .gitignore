@@ -4,3 +4,4 @@ crosstest_batchfile.slurm
 tunning_batchfile.slurm
 __pycache__/
 plotresults.py
+env
