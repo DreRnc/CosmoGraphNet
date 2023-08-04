@@ -28,7 +28,7 @@ else:
 hred = 0.7
 
 # Root path for simulations
-simpathroot = "/projects/QUIJOTE/CAMELS/Sims/"
+simpathroot = os.getcwd() + '/Data/'
 
 # Box size in comoving kpc/h
 boxsize = 25.e3
@@ -37,7 +37,7 @@ boxsize = 25.e3
 valid_size, test_size = 0.15, 0.15
 
 # Batch size
-batch_size = 25
+batch_size = 16
 
 # Number of k bins in the power spectrum
 ps_size = 79

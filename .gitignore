@@ -5,3 +5,9 @@ tunning_batchfile.slurm
 __pycache__/
 plotresults.py
 env
+Data
+Logs
+Outputs
+Models
+Plots
+MultipoolingTests.ipynb

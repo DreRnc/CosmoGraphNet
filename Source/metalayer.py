@@ -6,10 +6,8 @@
 
 import torch
 import torch.nn.functional as F
-from torch_cluster import knn_graph, radius_graph
 from torch.nn import Sequential, Linear, ReLU, ModuleList
 from torch_geometric.nn import MessagePassing, MetaLayer, LayerNorm
-from torch_scatter import scatter_mean, scatter_sum, scatter_max, scatter_min, scatter_add
 from torch_geometric.nn import global_mean_pool, global_max_pool, global_add_pool
 from Source.constants import *
 
@@ -68,9 +66,17 @@ class NodeModel(torch.nn.Module):
         out = edge_attr
 
         # Multipooling layer
-        out1 = scatter_add(out, col, dim=0, dim_size=x.size(0))
-        out2 = scatter_max(out, col, dim=0, dim_size=x.size(0))[0]
-        out3 = scatter_mean(out, col, dim=0, dim_size=x.size(0))
+        out1 = torch.zeros(x.size(0), out.size(1)).to(device)
+        out2 = torch.zeros(x.size(0), out.size(1)).to(device)
+        out3 = torch.zeros(x.size(0), out.size(1)).to(device)
+
+        for i in range(x.size(0)):
+            neighbour_edge_attr = out[row == i]
+            out1[i] = torch.sum(neighbour_edge_attr, dim=0)
+            out2[i] = torch.max(neighbour_edge_attr, dim=0)[0]
+            out3[i] = torch.mean(neighbour_edge_attr, dim=0)
+        
+        # Concatenation for giving in input to MLP
         out = torch.cat([x, out1, out2, out3, u[batch]], dim=1)
 
         out = self.node_mlp(out)
@@ -119,9 +125,17 @@ class NodeModelIn(torch.nn.Module):
         out = edge_attr
 
         # Multipooling layer
-        out1 = scatter_add(out, col, dim=0, dim_size=x.size(0))
-        out2 = scatter_max(out, col, dim=0, dim_size=x.size(0))[0]
-        out3 = scatter_mean(out, col, dim=0, dim_size=x.size(0))
+        out1 = torch.zeros(x.size(0), out.size(1)).to(device)
+        out2 = torch.zeros(x.size(0), out.size(1)).to(device)
+        out3 = torch.zeros(x.size(0), out.size(1)).to(device)
+
+        for i in range(x.size(0)):
+            neighbour_edge_attr = out[row == i]
+            out1[i] = torch.sum(neighbour_edge_attr, dim=0)
+            out2[i] = torch.max(neighbour_edge_attr, dim=0)[0]
+            out3[i] = torch.mean(neighbour_edge_attr, dim=0)
+        
+        # Concatenation for giving in input to MLP
         out = torch.cat([out1, out2, out3, u[batch]], dim=1)
 
         out = self.node_mlp(out)

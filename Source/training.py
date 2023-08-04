@@ -13,11 +13,11 @@ def train(loader, model, hparams, optimizer, scheduler):
 
     loss_tot = 0
     for data in loader:  # Iterate in batches over the training dataset.
-
+        print('checkpoint: iterating through training data')
         data.to(device)
         optimizer.zero_grad()  # Clear gradients.
         out = model(data)  # Perform a single forward pass.
-
+        print('checkpoint: performed first pass')
         # If cosmo parameters are predicted, perform likelihood-free inference to predict also the standard deviation
         if hparams.outmode == "cosmo":
             y_out, err_out = out[:,:hparams.pred_params], out[:,hparams.pred_params:2*hparams.pred_params]     # Take mean and standard deviation of the output
@@ -26,6 +26,7 @@ def train(loader, model, hparams, optimizer, scheduler):
             loss_mse = torch.mean(torch.sum((y_out - data.y)**2., axis=1) , axis=0)
             loss_lfi = torch.mean(torch.sum(((y_out - data.y)**2. - err_out**2.)**2., axis=1) , axis=0)
             loss = torch.log(loss_mse) + torch.log(loss_lfi)
+            
 
         # Else, perform standard regression
         elif hparams.outmode=="ps":
@@ -33,7 +34,9 @@ def train(loader, model, hparams, optimizer, scheduler):
             loss = torch.log(loss_mse)
 
         loss.backward()  # Derive gradients.
+        print('checkpoint: derived gradients')
         optimizer.step()  # Update parameters based on gradients.
+        print('checkpoint: updated parameters')
         scheduler.step()
         loss_tot += loss.item()
 
@@ -111,6 +114,7 @@ def training_routine(model, train_loader, test_loader, hparams, verbose=True):
 
     # Training loop
     for epoch in range(1, hparams.n_epochs+1):
+        print('checkpoint: epoch', epoch)
         train_loss = train(train_loader, model, hparams, optimizer, scheduler)
         test_loss, err = test(test_loader, model, hparams)
         train_losses.append(train_loss); valid_losses.append(test_loss)

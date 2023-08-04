@@ -128,8 +128,8 @@ def sim_graph(simnumber, param_file, hparams):
     simsuite,simset,r_link,only_positions,outmode,pred_params = hparams.simsuite,hparams.simset,hparams.r_link,hparams.only_positions,hparams.outmode,hparams.pred_params
 
     # Name of the galaxy catalogue
-    simpath = simpathroot + simsuite + "/"+simset+"_"
-    catalogue = simpath + str(simnumber)+"/fof_subhalo_tab_0"+hparams.snap+".hdf5"
+    simpath = simpathroot + simsuite + "_" + simset + "_"
+    catalogue = simpath + str(simnumber) + "_fof_subhalo_tab_0"+hparams.snap+".hdf5"
 
     # Read the catalogue
     f     = h5py.File(catalogue, 'r')
@@ -230,7 +230,7 @@ def create_dataset(hparams):
 
     # Target file depending on the task: inferring cosmo parameters or predicting power spectrum
     if hparams.outmode == "cosmo":
-        param_file = "/projects/QUIJOTE/CAMELS/Sims/CosmoAstroSeed_params_"+hparams.simsuite+".txt"
+        param_file = simpathroot + "CosmoAstroSeed_params_" + hparams.simsuite + ".txt"
     elif hparams.outmode == "ps":
         param_file = "PS_files/Pk_galaxies_"+hparams.simsuite+"_LH_"+hparams.snap+"_kmax=20.0.npy"
 

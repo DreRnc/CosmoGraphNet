@@ -65,9 +65,10 @@ hparams = hyperparameters(outmode = "cosmo",                        # Choose the
                           n_layers = 2,                             # Number of hidden graph layers
                           r_link = 0.015,                           # Linking radius
                           hidden_channels = 64,                     # Hidden channels
-                          n_epochs = 300,                           # Number of epochs
+                          n_epochs = 300,                            # Number of epochs
                           simsuite = "IllustrisTNG",                # Simulation suite, choose between "IllustrisTNG" and "SIMBA"
-                          pred_params = 1                           # Number of cosmo/astro params to be predicted, starting from Omega_m, sigma_8, etc. (Only for outmode = "cosmo")
+                          pred_params = 1,                          # Number of cosmo/astro params to be predicted, starting from Omega_m, sigma_8, etc. (Only for outmode = "cosmo")
+                          n_sims = 100
                           )
 """
 # SIMBA best model
