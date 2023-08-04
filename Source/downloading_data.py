@@ -2,7 +2,7 @@ import requests
 from constants import simpathroot
 
 sims = ["IllustrisTNG", "SIMBA"]
-indexes = range(100)
+indexes = range(1000)
 
 """Download the dataset from Flatiron Institute.
 e.g. link: https://users.flatironinstitute.org/~camels/FOF_Subfind/IllustrisTNG/LH/LH_567/fof_subhalo_tab_005.hdf5 
