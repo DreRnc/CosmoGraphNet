@@ -9,6 +9,7 @@ from Source.plotting import *
 from Source.load_data import *
 from torch_geometric.utils import degree
 from torch_cluster import radius_graph
+from hyperparameters import hparams
 
 fontsize = 8
 
@@ -84,8 +85,9 @@ def display_graphs(simsuite, n_sims, r_link, simset="LH", showgraph=True, get_de
 
     # Load data and create graph
     for simnumber in range(n_sims):
-        simpath = simpathroot + simsuite + "/"+simset+"_"
-        catalogue = simpath + str(simnumber)+"/fof_subhalo_tab_033.hdf5"
+        # Name of the galaxy catalogue
+        simpath = simpathroot + simsuite + "_" + simset + "_"
+        catalogue = simpath + str(simnumber) + "_fof_subhalo_tab_0"+hparams.snap+".hdf5"
 
         # Read the catalogue
         f     = h5py.File(catalogue, 'r')

@@ -68,7 +68,7 @@ def main(hparams, verbose = True, testsuite = False):
     # Plot loss trends
     if hparams.training:
         plot_losses(train_losses, valid_losses, test_loss, rel_err, hparams)
-    """
+    
     # Plot true vs predicted cosmo parameters
     if hparams.outmode=="cosmo":
         plot_out_true_scatter(hparams, "Om", testsuite)
@@ -78,7 +78,7 @@ def main(hparams, verbose = True, testsuite = False):
     # Plot power spectrum and relative error
     elif hparams.outmode=="ps":
         plot_ps(hparams)
-    """
+    
     return test_loss
 
 
